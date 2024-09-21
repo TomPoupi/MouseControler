@@ -1,7 +1,25 @@
+const yargs = require('yargs')
+const {hideBin} = require('yargs/helpers')
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 var robot = require("robotjs");
+const { url } = require('inspector');
+
+const argv = yargs(hideBin(process.argv)) // Analyse des paramètres
+  .option('url', {
+    alias: 'u',
+    default: 'localhost',
+    description: 'Url du serveur à contacter'
+  })
+  .option('port', {
+    alias: 'p',
+    default: '3000',
+    description: 'port à utiliser'
+  })
+  .help()
+  .argv
+
 
 const typesDef = {
     DIR_EVENT: 'direvent',
@@ -55,11 +73,11 @@ function handleMessage(message, userId) {
 app.set('view engine', 'ejs');
 
 app.get('/', (_, res) => {
-    res.render('index');
+    res.render('index',{url:argv.url,port:argv.port});
 });
 
-server.listen(3000,"192.168.52.44", () => {
-    console.log('Server is running on port 3000');
+server.listen(argv.port,argv.url, async() => {
+    console.log('Server is running on http://' + argv.url + ':' + argv.port);
 });
 
 io.on('connection', (socket) => {

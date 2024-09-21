@@ -7,7 +7,5 @@ Il est possible qu'il y est des bug , dans cette situation relancer le server
 
 ## installation
 
-pensez à changer l'addess IP et le port de index.js et index.ejs pour réaliser correctement la communication
-
 npm install
 node index.js

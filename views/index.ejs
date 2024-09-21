@@ -43,7 +43,9 @@
     <script>
         //var joystick = document.getElementById('joystick');
         // Connectez-vous au serveur WebSocket
-        var socket = io('http://192.168.52.44:3000');
+        let url = '<%= url %>';
+        let port = '<%= port %>';
+        var socket = io('http://'+url+':'+port);
         socket.on('connection', function() {
             console.log('Connected to server');
         });
@@ -70,6 +72,10 @@
 
     <script>
         var intervalId;
+
+        window.addEventListener('beforeunload', function(){
+            clearInterval(intervalId);
+        });
 
         function startMoving(x_relative, y_relative) {
             intervalId = setInterval(function() {
